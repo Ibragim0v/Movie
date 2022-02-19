@@ -14,32 +14,52 @@
             <div class="row row-cols-2">
                 <div class="col-4">
                     <div class="mb-4">
-                            <div class="mb-3">
-                              <input type="name" placeholder="ave" class="form-control" id="name" aria-describedby="name">
-                            </div>
-                            <div class="mb-3">
-                              <input type="number" placeholder="5" class="form-control" id="number">
-                            </div>
-                            
-                            <select class="form-select mb-3" disabled>
-                                <option>All</option>
-                                <option>A</option>
-                                <option>B</option>
-                                <option>C</option>
-                            </select>
-
-                            <select class="form-select mb-3" disabled>
-                                <option>Rating (high to low)</option>
-                                <option>A</option>
-                                <option>B</option>
-                                <option>C</option>
-                            </select>
-
-                            <button type="button" class="w-100 btn btn-primary">Search</button>
+                        <div class="mb-3">
+                            <input type="name" placeholder="ave" class="form-control" id="name" aria-describedby="name">
+                        </div>
+                        <div class="mb-3">
+                            <input type="number" placeholder="5" class="form-control" id="number">
+                        </div>
+                        
+                        <select class="form-select mb-3 bg-white" disabled>
+                            <option selected disabled value="all">All</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                        
+                        <select class="form-select mb-3 bg-white" disabled>
+                            <option selected disabled value="rating">Rating (high to low)</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                        
+                        <button type="button" class="w-100 btn btn-primary">Search</button>
                     </div>
-
+                    
                     <div>
                         <h1 class="h1">Bookmarked Movies</h1>
+                        
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <h5>Avengers Infinity War</h5>
+                                <button type="button" class="btn btn-danger">Remove</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <h5>The Avengers</h5>
+                                <button type="button" class="btn btn-danger">Remove</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <h5>12 Years a Slave</h5>
+                                <button type="button" class="btn btn-danger">Remove</button>
+                            </li>
+                        </ul>
+                        
                     </div>
                 </div>
                 
@@ -48,51 +68,51 @@
                         <p class="h4 text-start">Search rusult: 39</p>
                         <div class="alert alert-success" role="alert">A simple success alert—check it out!</div>
                     </div>
-
+                    
                     <ul class="row gap-3">
                         <li class="card col-5 pe-0 ps-0">
                             <img src="./img/avengers.jpg" class="card-img-top" alt="avengers" width="300" height="200">
                             <div class="card-body ">
-                              <h5 class="card-title">Avengers Infinity War</h5>
-                              <ul class="d-block text-decoration-none p-0">
-                                  <li class="d-flex mb-2">
-                                    <img src="./img/calendar.svg" alt="date" width="20" height="20">
-                                    <p class="h6">2018</p>
-                                  </li>
-
-                                  <li class="d-flex mb-2">
-                                    <img src="./img/star.svg" alt="star" width="20" height="20">
-                                    <p class="h6">8.7</p>
-                                  </li>
-                              </ul>
-                              <a href="#" class="btn btn-outline-primary ">Watch trailer</a>
-                              <a href="#" class="btn btn-outline-secondary">More Info</a>
-                              <a href="#" class="btn btn-outline-danger">Bookmark</a>
+                                <h5 class="card-title">Avengers Infinity War</h5>
+                                <ul class="d-block text-decoration-none p-0">
+                                    <li class="d-flex mb-2">
+                                        <img src="./img/calendar.svg" alt="date" width="20" height="20">
+                                        <p class="h6">2018</p>
+                                    </li>
+                                    
+                                    <li class="d-flex mb-2">
+                                        <img src="./img/star.svg" alt="star" width="20" height="20">
+                                        <p class="h6">8.7</p>
+                                    </li>
+                                </ul>
+                                <a href="#" class="btn btn-outline-primary ">Watch trailer</a>
+                                <a href="#" class="btn btn-outline-secondary">More Info</a>
+                                <a href="#" class="btn btn-outline-danger">Bookmark</a>
                             </div>
                         </li>
-
+                        
                         <li class="card col-5 pe-0 ps-0">
                             <img src="./img/ironman.jpg" class="card-img-top" alt="ironman" width="300" height="200">
                             <div class="card-body ">
-                              <h5 class="card-title">The Avengers</h5>
-                              <ul class="d-block text-decoration-none p-0">
-                                  <li class="d-flex mb-2">
-                                    <img src="./img/calendar.svg" alt="date" width="20" height="20>
-                                    <p class="h6">2012</p>
-                                  </li>
-
-                                  <li class="d-flex mb-2">
-                                    <img src="./img/star.svg" alt="star" width="20" height="20">
-                                    <p class="h6">8.1</p>
-                                  </li>
-                              </ul>
-                              <a href="#" class="btn btn-outline-primary ">Watch trailer</a>
-                              <a href="#" class="btn btn-outline-secondary">More Info</a>
-                              <a href="#" class="btn btn-outline-danger">Bookmark</a>
+                                <h5 class="card-title">The Avengers</h5>
+                                <ul class="d-block text-decoration-none p-0">
+                                    <li class="d-flex mb-2">
+                                        <img src="./img/calendar.svg" alt="date" width="20" height="20>
+                                        <p class="h6">2012</p>
+                                    </li>
+                                    
+                                    <li class="d-flex mb-2">
+                                        <img src="./img/star.svg" alt="star" width="20" height="20">
+                                        <p class="h6">8.1</p>
+                                    </li>
+                                </ul>
+                                <a href="#" class="btn btn-outline-primary ">Watch trailer</a>
+                                <a href="#" class="btn btn-outline-secondary">More Info</a>
+                                <a href="#" class="btn btn-outline-danger">Bookmark</a>
                             </div>
                         </li>
                     </ul>
-
+                    
                     <div class="btn-toolbar justify-content-center" role="toolbar" aria-label="Toolbar with button groups">
                         <div class="btn-group me-2" role="group" aria-label="First group">
                             <button type="button" class="btn btn-outline-secondary">1</button>
