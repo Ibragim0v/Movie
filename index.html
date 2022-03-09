@@ -21,16 +21,16 @@
                             <input type="number" placeholder="5" class="form-control" id="number">
                         </div>
                         
-                        <select class="form-select mb-3 bg-white" disabled>
-                            <option selected disabled value="all">All</option>
+                        <select class="form-select mb-3 bg-white">
+                            <option selected disabled hidden value="all">All</option>
                             <option value="A">A</option>
                             <option value="B">B</option>
                             <option value="C">C</option>
                             <option value="D">D</option>
                         </select>
                         
-                        <select class="form-select mb-3 bg-white" disabled>
-                            <option selected disabled value="rating">Rating (high to low)</option>
+                        <select class="form-select mb-3 bg-white">
+                            <option selected disabled hidden value="rating">Rating (high to low)</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -48,12 +48,12 @@
                                 <h5>Avengers Infinity War</h5>
                                 <button type="button" class="btn btn-danger">Remove</button>
                             </li>
-
+                            
                             <li class="list-group-item">
                                 <h5>The Avengers</h5>
                                 <button type="button" class="btn btn-danger">Remove</button>
                             </li>
-
+                            
                             <li class="list-group-item">
                                 <h5>12 Years a Slave</h5>
                                 <button type="button" class="btn btn-danger">Remove</button>
@@ -69,48 +69,8 @@
                         <div class="alert alert-success" role="alert">A simple success alert—check it out!</div>
                     </div>
                     
-                    <ul class="row gap-3">
-                        <li class="card col-5 pe-0 ps-0">
-                            <img src="./img/avengers.jpg" class="card-img-top" alt="avengers" width="300" height="200">
-                            <div class="card-body ">
-                                <h5 class="card-title">Avengers Infinity War</h5>
-                                <ul class="d-block text-decoration-none p-0">
-                                    <li class="d-flex mb-2">
-                                        <img src="./img/calendar.svg" alt="date" width="20" height="20">
-                                        <p class="h6">2018</p>
-                                    </li>
-                                    
-                                    <li class="d-flex mb-2">
-                                        <img src="./img/star.svg" alt="star" width="20" height="20">
-                                        <p class="h6">8.7</p>
-                                    </li>
-                                </ul>
-                                <a href="#" class="btn btn-outline-primary ">Watch trailer</a>
-                                <a href="#" class="btn btn-outline-secondary">More Info</a>
-                                <a href="#" class="btn btn-outline-danger">Bookmark</a>
-                            </div>
-                        </li>
-                        
-                        <li class="card col-5 pe-0 ps-0">
-                            <img src="./img/ironman.jpg" class="card-img-top" alt="ironman" width="300" height="200">
-                            <div class="card-body ">
-                                <h5 class="card-title">The Avengers</h5>
-                                <ul class="d-block text-decoration-none p-0">
-                                    <li class="d-flex mb-2">
-                                        <img src="./img/calendar.svg" alt="date" width="20" height="20>
-                                        <p class="h6">2012</p>
-                                    </li>
-                                    
-                                    <li class="d-flex mb-2">
-                                        <img src="./img/star.svg" alt="star" width="20" height="20">
-                                        <p class="h6">8.1</p>
-                                    </li>
-                                </ul>
-                                <a href="#" class="btn btn-outline-primary ">Watch trailer</a>
-                                <a href="#" class="btn btn-outline-secondary">More Info</a>
-                                <a href="#" class="btn btn-outline-danger">Bookmark</a>
-                            </div>
-                        </li>
+                    <ul class="row gap-3 list-unstyled" id="cinema-list">
+
                     </ul>
                     
                     <div class="btn-toolbar justify-content-center" role="toolbar" aria-label="Toolbar with button groups">
@@ -126,5 +86,8 @@
         </main>
         
         <script src="./js/bootstrap.js"></script>
+        <script src="./js/movies.js"></script>
+        <script src="./js/main.js"></script>
+        
     </body>
     </html>
