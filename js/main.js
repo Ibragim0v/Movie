@@ -1,100 +1,115 @@
 // html defaults
-let elList = document.querySelector("#cinema-list")
-let elForm = document.querySelector("#main-form")
-let elInput = document.querySelector("#main-input")
-let inputValue = elInput.value.trim()
-let elSpan = document.querySelector("#main-result")
+let elList = document.querySelector("#cinema-list");
+let elForm = document.querySelector("#main-form");
+let elInputName = document.querySelector("#main-input");
+let elCategory = document.querySelector("#category-select");
+let inputValueName = elInputName.value.trim();
+let elInputYear = document.querySelector("#basic-input");
+let elResult = document.querySelector("#main-result");
+let elWarning = document.querySelector("#main-alert");
+let elTemplate = document.querySelector("#card-template").content;
 
-elForm.addEventListener("submit", (evt)=>{
-    evt.preventDefault();
+let slicedMovies = movies.slice(0, 20)
 
-    // search film name
-    let newMovies = movies.filter(function (item) {
-        return item.Title == elInput.value
+let normolizedMovieList = slicedMovies.map(movieItem => {
+    return {
+        title: movieItem.Title.toString(),
+        categories: movieItem.Categories,
+        rating: movieItem.imdb_rating,
+        year: movieItem.movie_year,
+        imageLink: `https://i.ytimg.com/vi/${movieItem.ytid}/mqdefault.jpg`,
+        youtubeLink: `https://www.youtube.com/watch?v=${movieItem.ytid}`
+    }
+})
+
+//Category movies
+function generateCategoriese(movies) {
+    
+    let categoryList = [];
+    
+    movies.forEach(item => {
+        let splittedCategories = item.categories.split("|");
+        
+        splittedCategories.forEach((item) => {
+            if (!(categoryList.includes(item))) {
+                categoryList.push(item)
+            }
+        })
+        categoryList.sort();
     })
     
-    function renderMovies(array, place) {
-
-        //number films
-        let number = 1;
-
-        // started null
-        elList.innerHTML = null;
-
-        for (let item of array) {
-            elSpan.textContent = number++;
+    let categoryFragment = document.createDocumentFragment()
     
-            // create <li> element
-            let newLi = document.createElement("li");
-            newLi.setAttribute("class", "col-5 mb-4")
-            
-            // create <div> element
-            let newDiv = document.createElement("div")
-            newDiv.setAttribute("class", "card")
-            
-            // create <img> element
-            let newIMG = document.createElement("img")
-            newIMG.setAttribute("src", `https://i.ytimg.com/vi/${item.ytid}/mqdefault.jpg`)
-            newIMG.setAttribute("class", "card-img-top")
-            newIMG.setAttribute("alt", `Movie img`)
-            
-            // create <h4> element
-            let newHeading = document.createElement("h4")
-            newHeading.classList.add("card-title")
-            newHeading.textContent = item.Title
+    categoryList.forEach(function (item){
+        let categoryOption = document.createElement("option");
+        categoryOption.value = item
+        categoryOption.textContent = item
+        categoryFragment.appendChild(categoryOption)
+    });
+    
+    elCategory.appendChild(categoryFragment)
+}
 
-            // create <p> element
-            let newPY = document.createElement("p")
-            newPY.setAttribute("class", "card-text fs-5 d-flex align-items-center")
-            newPY.textContent = item.movie_year;
-            
-            // create <p> element
-            let newPR = document.createElement("p")
-            newPR.setAttribute("class", "card-text fs-5 d-flex align-items-center")
-            newPR.textContent = item.imdb_rating;
-            
-            // create <div> element
-            let newInnerDiv = document.createElement("div")
-            newInnerDiv.classList.add("card-body")
-            newInnerDiv.append(newHeading);
-            newInnerDiv.append(newPY);
-            newInnerDiv.append(newPR);
-    
-            // create <div> element for btn
-            let newBtnGroup = document.createElement("div")
-            newBtnGroup.setAttribute("class", "d-flex gap-1 justify-content-center mb-3")
+generateCategoriese(normolizedMovieList)
 
-            // create <a> element
-            let newBtnOne = document.createElement("a")
-            newBtnOne.setAttribute("class", "btn btn-outline-primary")
-            newBtnOne.textContent = "Watch Trailer";
-            newBtnOne.setAttribute("href", `https://www.youtube.com/watch?v=${item.ytid}`)
+function renderMovies(movieArray, wrapper) {
     
-            // create <a> element
-            let newBtnTwo = document.createElement("a")
-            newBtnTwo.textContent = "More Info";
-            newBtnTwo.setAttribute("class", "btn btn-outline-danger")
+    const FRAGMENT = document.createDocumentFragment()
+    wrapper.innerHTML = null;
     
-            // create <a> element
-            let newBtnThree = document.createElement("a")
-            newBtnThree.textContent = "Bookmarked";
-            newBtnThree.setAttribute("class", "btn btn-outline-warning")
+    movieArray.forEach(movie => {
+        let templateDiv = elTemplate.cloneNode(true)
+        
+        templateDiv.querySelector("#movie-img").src = movie.imageLink
+        templateDiv.querySelector("#movie-name").textContent = movie.title
+        templateDiv.querySelector("#movie-year").textContent = movie.year
+        templateDiv.querySelector("#movie-genre").textContent = movie.categories.split("|").join(", ")
+        templateDiv.querySelector("#movie-rating").textContent = movie.rating
+        templateDiv.querySelector("#movie-trailer").href = movie.youtubeLink
+        
+        FRAGMENT.appendChild(templateDiv)
+    })
     
-            // add element their parent
-            newBtnGroup.appendChild(newBtnOne)
-            newBtnGroup.appendChild(newBtnTwo)
-            newBtnGroup.appendChild(newBtnThree)
-            
-            // add element their parent
-            newDiv.appendChild(newIMG)
-            newDiv.appendChild(newInnerDiv)
-            newDiv.appendChild(newBtnGroup)
-            
-            // add element their parent
-            newLi.appendChild(newDiv)
-            place.appendChild(newLi)
-        }
+    wrapper.appendChild(FRAGMENT)
+    
+    elResult.textContent = movieArray.length;
+    
+    if (elResult.textContent == 0) {
+        elWarning.textContent = "Couldn't find the movie you're looking for!"
+    }else {
+        elWarning.textContent = "The list of movies you need!"
+    }
+}
+
+elForm.addEventListener("submit", (evt) => {
+    evt.preventDefault()
+    
+    let selectCategory = elCategory.value
+    let categorisedMovies = []
+    
+    if (selectCategory == "All") {
+        categorisedMovies = normolizedMovieList
+    }else {
+        categorisedMovies = normolizedMovieList.filter(function (item) {
+            return item.categories.split("|").includes(selectCategory)
+        })
     }
     
-    renderMovies(newMovies, elList)
+    
+    renderMovies(categorisedMovies, elList)
 })
+
+// elForm.addEventListener("submit", (evt) => {
+//     evt.preventDefault();
+
+//     let inputValueYear = elInputYear.value.trim();
+
+//     //if enter text alert add
+//     if (isNaN(inputValueYear)) {
+//         alert("enter number")
+//     }
+
+//     let filteredMovies = normolizedMovieList.filter(item =>  item.year >= inputValueYear)
+
+//     renderMovies(filteredMovies, elList)
+// })

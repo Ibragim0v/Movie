@@ -11,35 +11,29 @@
 <body>
     <main>
         <section class="container">
-            <h2 class="text-center">Movies catalog</h2>
+            <h2 class="text-center text-danger">Movies catalog</h2>
             <div class="row row-cols-2">
                 <div class="col-4">
                     <div class="mb-4">
                         <form action="kun.uz" method="get" id="main-form">
                             <div class="mb-3">
-                                <input type="name" placeholder="enter name film" class="form-control" id="main-input" aria-describedby="name" required>
+                                <input type="name" placeholder="enter movie name" class="form-control" id="main-input" aria-describedby="name">
                             </div>
                             <div class="mb-3">
-                                <input type="number" placeholder="enter movie year" class="form-control" id="basic-input">
+                                <input type="number" min="1900" max="2022" placeholder="enter movie year" class="form-control" id="basic-input">
                             </div>
                             
-                            <select class="form-select mb-3 bg-white">
-                                <option selected disabled hidden value="all">All</option>
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
-                                <option value="D">D</option>
+                            <select id="category-select" class="form-select mb-3 bg-white">
+                                <option value="All">All</option>
                             </select>
                             
                             <select class="form-select mb-3 bg-white">
-                                <option selected disabled hidden value="rating">Rating (high to low)</option>
-                                <option value="1">6</option>
-                                <option value="2">7</option>
-                                <option value="3">8</option>
-                                <option value="4">9</option>
+                                <option value="default">Rating (dafault)</option>
+                                <option value="high">Rating (high to low)</option>
+                                <option value="low">Rating (low to high)</option>
                             </select>
                             
-                            <button type="submit" class="w-100 btn btn-primary">Search</button>
+                            <button type="submit" class="w-100 btn btn-danger">Search</button>
                         </form>
                     </div>
                     
@@ -47,20 +41,7 @@
                         <h1 class="h1">Bookmarked Movies</h1>
                         
                         <ul class="list-group">
-                            <li class="list-group-item">
-                                <h5>Avengers Infinity War</h5>
-                                <button type="button" class="btn btn-danger">Remove</button>
-                            </li>
                             
-                            <li class="list-group-item">
-                                <h5>The Avengers</h5>
-                                <button type="button" class="btn btn-danger">Remove</button>
-                            </li>
-                            
-                            <li class="list-group-item">
-                                <h5>12 Years a Slave</h5>
-                                <button type="button" class="btn btn-danger">Remove</button>
-                            </li>
                         </ul>
                         
                     </div>
@@ -68,25 +49,60 @@
                 
                 <div class="col-8">
                     <div class="col-10 ms-4">
-                        <p class="h4 text-start">Search result: <span id="main-result"></span></p>
-                        <div class="alert alert-success" role="alert">Select your favorite film!</div>
+                        <p class="h4 text-start text-danger">Search result: <span id="main-result"></span></p>
+                        <div class="alert alert-warning" role="alert" id="main-alert">Search your favorite film!</div>
                     </div>
                     
                     <ul class="row gap-3 list-unstyled" id="cinema-list">
-
+                        
                     </ul>
                     
                     <div class="btn-toolbar justify-content-center" role="toolbar" aria-label="Toolbar with button groups">
                         <div class="btn-group me-2" role="group" aria-label="First group">
-                            <button type="button" class="btn btn-outline-secondary">1</button>
-                            <button type="button" class="btn btn-outline-secondary">2</button>
-                            <button type="button" class="btn btn-outline-secondary">3</button>
-                            <button type="button" class="btn btn-outline-secondary">4</button>
+                            <button type="button" class="btn btn-outline-danger">1</button>
+                            <button type="button" class="btn btn-outline-danger">2</button>
+                            <button type="button" class="btn btn-outline-danger">3</button>
+                            <button type="button" class="btn btn-outline-danger">4</button>
                         </div>
                     </div>
                 </div>
             </section>
         </main>
+        
+        <template id="card-template">
+            <li class="col-5 mb-4">
+                <div class="card">
+                    <img src="" id="movie-img" class="card-img-top" alt="Movie img">
+                    <div class="card-body">
+                        <h4 id="movie-name" class="card-title"></h4>
+                        <p class="card-text fs-5 d-flex align-items-center">
+                            <img class="me-1" src="./img/calendar.svg" alt="calendar" width="20" height="20">
+                            <span id="movie-year"></span>
+                        </p>
+                        <p class="card-text fs-5 d-flex align-items-center">
+                            <img class="me-1" src="./img/genre.png"  alt="calendar" width="20" height="20">
+                            <span id="movie-genre"></span>
+                        </p>
+                        <p class="card-text fs-5 d-flex align-items-center">
+                            <img class="me-1" src="./img/star.svg" alt="star" width="20" height="20">
+                            <span id="movie-rating"></span>
+                        </p>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-center mb-3">
+                        <a id="movie-trailer"  class="btn btn-outline-primary" href="">Watch Trailer</a>
+                        <a id="movie-bookmark"  class="btn btn-outline-danger">Bookmark</a>
+                        <a id="movie-info"  class="btn btn-outline-warning">More Info</a>
+                    </div>
+                </div>
+            </li>
+        </template>
+
+        <template id="bookmark-template">
+            <li class="list-group-item">
+                <h5>Avengers Infinity War</h5>
+                <button type="button" class="btn btn-danger">Remove</button>
+            </li>
+        </template>
         
         <script src="./js/bootstrap.js"></script>
         <script src="./js/movies.js"></script>
