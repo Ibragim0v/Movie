@@ -1,16 +1,18 @@
 // html defaults
-let elList = document.querySelector("#cinema-list");
 let elForm = document.querySelector("#main-form");
 let elInputName = document.querySelector("#main-input");
 let elCategory = document.querySelector("#category-select");
-let inputValueName = elInputName.value.trim();
 let elInputYear = document.querySelector("#basic-input");
+let elSort = document.querySelector("#rating-sort");
 let elResult = document.querySelector("#main-result");
 let elWarning = document.querySelector("#main-alert");
+let elList = document.querySelector("#cinema-list");
 let elTemplate = document.querySelector("#card-template").content;
 
-let slicedMovies = movies.slice(0, 20)
+// slice movie list
+let slicedMovies = movies.slice(0, 100)
 
+// movie need variables
 let normolizedMovieList = slicedMovies.map(movieItem => {
     return {
         title: movieItem.Title.toString(),
@@ -21,6 +23,38 @@ let normolizedMovieList = slicedMovies.map(movieItem => {
         youtubeLink: `https://www.youtube.com/watch?v=${movieItem.ytid}`
     }
 })
+
+//render movies
+function renderMovies(movieArray, wrapper) {
+    
+    let cardFragment = document.createDocumentFragment()
+    wrapper.innerHTML = null;
+    
+    movieArray.forEach(movie => {
+        let templateDiv = elTemplate.cloneNode(true)
+        
+        templateDiv.querySelector("#movie-img").src = movie.imageLink
+        templateDiv.querySelector("#movie-name").textContent = movie.title
+        templateDiv.querySelector("#movie-year").textContent = movie.year
+        templateDiv.querySelector("#movie-genre").textContent = movie.categories.split("|").join(", ")
+        templateDiv.querySelector("#movie-rating").textContent = movie.rating
+        templateDiv.querySelector("#movie-trailer").href = movie.youtubeLink
+        
+        cardFragment.appendChild(templateDiv)
+    })
+    
+    wrapper.appendChild(cardFragment)
+    
+    elResult.textContent = movieArray.length;
+    
+    if (elResult.textContent == 0) {
+        elWarning.textContent = "Couldn't find the movie you're looking for!"
+    }else {
+        elWarning.textContent = "The list of movies you need!"
+    }
+}
+
+renderMovies(normolizedMovieList, elList)
 
 //Category movies
 function generateCategoriese(movies) {
@@ -40,7 +74,7 @@ function generateCategoriese(movies) {
     
     let categoryFragment = document.createDocumentFragment()
     
-    categoryList.forEach(function (item){
+    categoryList.forEach((item) => {
         let categoryOption = document.createElement("option");
         categoryOption.value = item
         categoryOption.textContent = item
@@ -52,64 +86,39 @@ function generateCategoriese(movies) {
 
 generateCategoriese(normolizedMovieList)
 
-function renderMovies(movieArray, wrapper) {
+// movie name,year and selectOptions setting
+var findMovies = function (titleMovie, yearMovie, genreMovie) {
     
-    const FRAGMENT = document.createDocumentFragment()
-    wrapper.innerHTML = null;
-    
-    movieArray.forEach(movie => {
-        let templateDiv = elTemplate.cloneNode(true)
+    return normolizedMovieList.filter((movie) => {
+        var doesMatchCategory = genreMovie === "All" || movie.categories.includes(genreMovie);
         
-        templateDiv.querySelector("#movie-img").src = movie.imageLink
-        templateDiv.querySelector("#movie-name").textContent = movie.title
-        templateDiv.querySelector("#movie-year").textContent = movie.year
-        templateDiv.querySelector("#movie-genre").textContent = movie.categories.split("|").join(", ")
-        templateDiv.querySelector("#movie-rating").textContent = movie.rating
-        templateDiv.querySelector("#movie-trailer").href = movie.youtubeLink
-        
-        FRAGMENT.appendChild(templateDiv)
+        return movie.title.match(titleMovie) && movie.year >= yearMovie && doesMatchCategory
     })
     
-    wrapper.appendChild(FRAGMENT)
-    
-    elResult.textContent = movieArray.length;
-    
-    if (elResult.textContent == 0) {
-        elWarning.textContent = "Couldn't find the movie you're looking for!"
-    }else {
-        elWarning.textContent = "The list of movies you need!"
-    }
 }
 
+// form stop method:get and settings all form values
 elForm.addEventListener("submit", (evt) => {
-    evt.preventDefault()
+    evt.preventDefault();
     
-    let selectCategory = elCategory.value
-    let categorisedMovies = []
+    let inputValueName = elInputName.value.trim();
+    let inputValueYear = elInputYear.value.trim();
+    let selectOption = elCategory.value;
+    let sortingType = elSort.value;
     
-    if (selectCategory == "All") {
-        categorisedMovies = normolizedMovieList
-    }else {
-        categorisedMovies = normolizedMovieList.filter(function (item) {
-            return item.categories.split("|").includes(selectCategory)
-        })
+    
+    let pattern = new RegExp(inputValueName, "gi")
+    let resultArray = findMovies(pattern, inputValueYear, selectOption)
+    
+    if (sortingType === "high") {
+        resultArray.sort(function (b, a) {return a.rating - b.rating})
+    }
+    
+    if (sortingType === "low") {
+        resultArray.sort(function (a, b) {return a.rating - b.rating})
     }
     
     
-    renderMovies(categorisedMovies, elList)
+    renderMovies(resultArray, elList)
 })
 
-// elForm.addEventListener("submit", (evt) => {
-//     evt.preventDefault();
-
-//     let inputValueYear = elInputYear.value.trim();
-
-//     //if enter text alert add
-//     if (isNaN(inputValueYear)) {
-//         alert("enter number")
-//     }
-
-//     let filteredMovies = normolizedMovieList.filter(item =>  item.year >= inputValueYear)
-
-//     renderMovies(filteredMovies, elList)
-// })

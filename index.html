@@ -11,7 +11,7 @@
 <body>
     <main>
         <section class="container">
-            <h2 class="text-center text-danger">Movies catalog</h2>
+            <h2 class="text-center">Movies catalog</h2>
             <div class="row row-cols-2">
                 <div class="col-4">
                     <div class="mb-4">
@@ -27,20 +27,20 @@
                                 <option value="All">All</option>
                             </select>
                             
-                            <select class="form-select mb-3 bg-white">
+                            <select id="rating-sort" class="form-select mb-3 bg-white">
                                 <option value="default">Rating (dafault)</option>
                                 <option value="high">Rating (high to low)</option>
                                 <option value="low">Rating (low to high)</option>
                             </select>
                             
-                            <button type="submit" class="w-100 btn btn-danger">Search</button>
+                            <button type="submit" class="w-100 btn btn-dark">Search</button>
                         </form>
                     </div>
                     
                     <div>
                         <h1 class="h1">Bookmarked Movies</h1>
                         
-                        <ul class="list-group">
+                        <ul id="bookmark-list" class="list-group">
                             
                         </ul>
                         
@@ -49,11 +49,11 @@
                 
                 <div class="col-8">
                     <div class="col-10 ms-4">
-                        <p class="h4 text-start text-danger">Search result: <span id="main-result"></span></p>
-                        <div class="alert alert-warning" role="alert" id="main-alert">Search your favorite film!</div>
+                        <p class="h4 text-start">Search result: <span id="main-result"></span></p>
+                        <div style="margin-left: -25px;" class="alert alert-warning pe-0" role="alert" id="main-alert">Search your favorite film!</div>
                     </div>
                     
-                    <ul class="row gap-3 list-unstyled" id="cinema-list">
+                    <ul class="row gap-4 list-unstyled" id="cinema-list">
                         
                     </ul>
                     
@@ -89,9 +89,9 @@
                         </p>
                     </div>
                     <div class="d-flex gap-2 justify-content-center mb-3">
-                        <a id="movie-trailer"  class="btn btn-outline-primary" href="">Watch Trailer</a>
-                        <a id="movie-bookmark"  class="btn btn-outline-danger">Bookmark</a>
-                        <a id="movie-info"  class="btn btn-outline-warning">More Info</a>
+                        <a id="movie-trailer" class="btn btn-outline-primary" href="">Watch Trailer</a>
+                        <a id="movie-info" class="btn btn-outline-warning">More Info</a>
+                        <a id="movie-bookmark" class="btn btn-outline-danger">Bookmark</a>
                     </div>
                 </div>
             </li>
@@ -99,8 +99,8 @@
 
         <template id="bookmark-template">
             <li class="list-group-item">
-                <h5>Avengers Infinity War</h5>
-                <button type="button" class="btn btn-danger">Remove</button>
+                <h5 id="bookmark-name"></h5>
+                <button type="reset" class="btn btn-dark">Remove</button>
             </li>
         </template>
         
