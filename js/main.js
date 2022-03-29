@@ -7,7 +7,11 @@ let elSort = document.querySelector("#rating-sort");
 let elResult = document.querySelector("#main-result");
 let elWarning = document.querySelector("#main-alert");
 let elList = document.querySelector("#cinema-list");
+let elWrapper = document.querySelector("#bookmark-list");
 let elTemplate = document.querySelector("#card-template").content;
+let elBookmark = document.querySelector("#bookmark-template").content;
+
+// console.log(elWrapper);
 
 // slice movie list
 let slicedMovies = movies.slice(0, 100)
@@ -39,7 +43,8 @@ function renderMovies(movieArray, wrapper) {
         templateDiv.querySelector("#movie-genre").textContent = movie.categories.split("|").join(", ")
         templateDiv.querySelector("#movie-rating").textContent = movie.rating
         templateDiv.querySelector("#movie-trailer").href = movie.youtubeLink
-        
+        let bookmarkBtn = templateDiv.querySelector("#movie-bookmark")
+
         cardFragment.appendChild(templateDiv)
     })
     
