@@ -11,14 +11,14 @@ let elWrapper = document.querySelector("#bookmark-list");
 let elTemplate = document.querySelector("#card-template").content;
 let elBookmark = document.querySelector("#bookmark-template").content;
 
-// console.log(elWrapper);
-
 // slice movie list
-let slicedMovies = movies.slice(0, 100)
+let slicedMovies = movies.slice(0, 10)
+
 
 // movie need variables
-let normolizedMovieList = slicedMovies.map(movieItem => {
+let normolizedMovieList = slicedMovies.map((movieItem, index) => {
     return {
+        id: ++index,
         title: movieItem.Title.toString(),
         categories: movieItem.Categories,
         rating: movieItem.imdb_rating,
@@ -43,8 +43,8 @@ function renderMovies(movieArray, wrapper) {
         templateDiv.querySelector("#movie-genre").textContent = movie.categories.split("|").join(", ")
         templateDiv.querySelector("#movie-rating").textContent = movie.rating
         templateDiv.querySelector("#movie-trailer").href = movie.youtubeLink
-        let bookmarkBtn = templateDiv.querySelector("#movie-bookmark")
-
+        templateDiv.querySelector(".movie-bookmark").dataset.movieItemId = movie.id
+        
         cardFragment.appendChild(templateDiv)
     })
     
@@ -127,3 +127,61 @@ elForm.addEventListener("submit", (evt) => {
     renderMovies(resultArray, elList)
 })
 
+// save bookmark in site
+let storage = window.localStorage;
+
+let getItemFromLocalStorage = JSON.parse(storage.getItem("movieArray"));
+
+let bookmarkedMovies = getItemFromLocalStorage || []
+
+//add bookmark
+elList.addEventListener("click", function (evt) {
+    let movieID = evt.target.dataset.movieItemId;
+    
+    if (movieID) {
+        let foundMovie = normolizedMovieList.find(item => item.id == movieID)
+        
+        let doesInclude = bookmarkedMovies.findIndex(item => item.id === foundMovie.id)
+        
+        if (doesInclude === -1) {
+            bookmarkedMovies.push(foundMovie);
+            storage.setItem("movieArray", JSON.stringify(bookmarkedMovies))
+            renderBookmarkedMovies(bookmarkedMovies ,elWrapper)
+        }
+        
+    }
+})
+
+//renderBookmark
+function renderBookmarkedMovies(array, wrapper) {
+    
+    wrapper.innerHTML = null;
+    let elFragment = document.createDocumentFragment()
+    
+    array.forEach(item => {
+        let bookmarkTemplate = elBookmark.cloneNode(true);
+        
+        bookmarkTemplate.querySelector("#bookmark-name").textContent = item.title;
+        bookmarkTemplate.querySelector("#bookmark-remove").dataset.markedRemoveId = item.id;
+        
+        elFragment.appendChild(bookmarkTemplate);
+    })
+    
+    wrapper.appendChild(elFragment);
+}
+
+renderBookmarkedMovies(bookmarkedMovies ,elWrapper)
+
+//remove bookmark
+elWrapper.addEventListener("click", function (evt) {
+    let removedMovieId = evt.target.dataset.markedRemoveId
+    
+    if (removedMovieId) {
+        let indexOfMovie = bookmarkedMovies.find(function (item) {
+            return item.id == removedMovieId
+        })
+        bookmarkedMovies.splice(indexOfMovie, 1)
+        storage.setItem("movieArray", JSON.stringify(bookmarkedMovies))
+        renderBookmarkedMovies(bookmarkedMovies ,elWrapper)
+    }
+})
