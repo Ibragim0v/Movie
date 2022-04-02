@@ -7,6 +7,7 @@ let elSort = document.querySelector("#rating-sort");
 let elResult = document.querySelector("#main-result");
 let elWarning = document.querySelector("#main-alert");
 let elList = document.querySelector("#cinema-list");
+let elModal = document.querySelector(".modal-movie");
 let elWrapper = document.querySelector("#bookmark-list");
 let elTemplate = document.querySelector("#card-template").content;
 let elBookmark = document.querySelector("#bookmark-template").content;
@@ -21,8 +22,11 @@ let normolizedMovieList = slicedMovies.map((movieItem, index) => {
         id: ++index,
         title: movieItem.Title.toString(),
         categories: movieItem.Categories,
+        summary: movieItem.summary,
         rating: movieItem.imdb_rating,
         year: movieItem.movie_year,
+        time: movieItem.runtime,
+        language: movieItem.language,
         imageLink: `https://i.ytimg.com/vi/${movieItem.ytid}/mqdefault.jpg`,
         youtubeLink: `https://www.youtube.com/watch?v=${movieItem.ytid}`
     }
@@ -44,18 +48,22 @@ function renderMovies(movieArray, wrapper) {
         templateDiv.querySelector("#movie-rating").textContent = movie.rating
         templateDiv.querySelector("#movie-trailer").href = movie.youtubeLink
         templateDiv.querySelector(".movie-bookmark").dataset.movieItemId = movie.id
+        templateDiv.querySelector(".movie-info").dataset.movieInfoId = movie.id
         
         cardFragment.appendChild(templateDiv)
     })
     
     wrapper.appendChild(cardFragment)
     
-    elResult.textContent = movieArray.length;
+    let lengthOfMovies =  movieArray.length;
     
-    if (elResult.textContent == 0) {
+    elResult.textContent = lengthOfMovies;
+    
+    if (lengthOfMovies == 0) {
         elWarning.textContent = "Couldn't find the movie you're looking for!"
+        elWarning.classList.add("alert-danger")
     }else {
-        elWarning.textContent = "The list of movies you need!"
+        elWarning.classList.remove("alert-danger")
     }
 }
 
@@ -135,7 +143,7 @@ let getItemFromLocalStorage = JSON.parse(storage.getItem("movieArray"));
 let bookmarkedMovies = getItemFromLocalStorage || []
 
 //add bookmark
-elList.addEventListener("click", function (evt) {
+elList.addEventListener("click", (evt) => {
     let movieID = evt.target.dataset.movieItemId;
     
     if (movieID) {
@@ -173,15 +181,30 @@ function renderBookmarkedMovies(array, wrapper) {
 renderBookmarkedMovies(bookmarkedMovies ,elWrapper)
 
 //remove bookmark
-elWrapper.addEventListener("click", function (evt) {
+elWrapper.addEventListener("click", (evt) => {
     let removedMovieId = evt.target.dataset.markedRemoveId
     
     if (removedMovieId) {
-        let indexOfMovie = bookmarkedMovies.find(function (item) {
-            return item.id == removedMovieId
-        })
+        let indexOfMovie = bookmarkedMovies.find(item => item.id == removedMovieId)
+        
         bookmarkedMovies.splice(indexOfMovie, 1)
         storage.setItem("movieArray", JSON.stringify(bookmarkedMovies))
         renderBookmarkedMovies(bookmarkedMovies ,elWrapper)
     }
+})
+
+elList.addEventListener("click", (evt) => {
+    let movieInfoBtn = evt.target.dataset.movieInfoId;
+    
+    if (movieInfoBtn) {
+        let findMovieInfo = normolizedMovieList.find(item => item.id == movieInfoBtn)
+
+        // console.log(elModal);
+
+        elModal.querySelector(".modal-movie-title").textContent = findMovieInfo.title
+        elModal.querySelector(".modal-movie-summary").textContent = findMovieInfo.summary
+        elModal.querySelector(".modal-movie-time").textContent = findMovieInfo.time
+        elModal.querySelector(".modal-movie-language").textContent = findMovieInfo.language
+    }
+    
 })
