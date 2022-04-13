@@ -13,7 +13,7 @@ let elTemplate = document.querySelector("#card-template").content;
 let elBookmark = document.querySelector("#bookmark-template").content;
 
 // slice movie list
-let slicedMovies = movies.slice(0, 10)
+let slicedMovies = movies
 
 
 // movie need variables
@@ -198,8 +198,6 @@ elList.addEventListener("click", (evt) => {
     
     if (movieInfoBtn) {
         let findMovieInfo = normolizedMovieList.find(item => item.id == movieInfoBtn)
-
-        // console.log(elModal);
 
         elModal.querySelector(".modal-movie-title").textContent = findMovieInfo.title
         elModal.querySelector(".modal-movie-summary").textContent = findMovieInfo.summary
